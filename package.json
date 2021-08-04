@@ -27,14 +27,15 @@
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
+    "fibers": "^5.0.0",
     "husky": "^7.0.1",
+    "sass": "^1.37.5",
     "stylelint": "^13.13.1",
     "stylelint-config-recess-order": "^2.4.0",
     "stylelint-config-standard": "^22.0.0"
   },
   "scripts": {
-    "build:js": "node scripts/build.js",
-    "build": "yarn lint && yarn build:js",
+    "build": "yarn lint && node scripts/build.js",
     "dev": "node scripts/dev.js",
     "lint:js": "eslint --ext \".js\" --ignore-path .gitignore .",
     "lint:style": "stylelint \"**/*.scss\" --ignore-path .gitignore",

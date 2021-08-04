@@ -1,23 +1,10 @@
 // build.js
 
 const fs = require('fs')
-const esbuild = require('esbuild')
 
-const deleteFiles = () => {
-  fs.rmSync('./dist', { recursive: true, force: true })
-}
+fs.rmSync('./dist', { recursive: true, force: true })
 
-const copyPage = () => {
-  fs.copyFile('./src/index.html', './dist/index.html', (err) => {
-    if (err) {
-      console.error(JSON.stringify(err, null, 2))
-    }
-  })
-}
-
-deleteFiles()
-
-esbuild
+require('esbuild')
   .build({
     bundle: true,
     color: true,
@@ -29,8 +16,32 @@ esbuild
     sourcemap: false,
   })
   .then(e => {
-    copyPage()
+    fs.copyFile('./src/index.html', './dist/index.html', (err) => {
+      if (err) {
+        console.error(JSON.stringify(err, null, 2))
+      }
+    })
   })
   .catch(err => {
     console.error(JSON.stringify(err, null, 2))
+  })
+
+require('sass')
+  .render({
+    file: './src/sass/main.scss',
+    outFile: 'main.css',
+    outputStyle: 'compressed',
+    sourceMap: false,
+    fiber: require('fibers'),
+  }, (err, result) => {
+    if (err) {
+      console.error(err)
+    }
+    else {
+      fs.writeFile('./dist/main.css', result.css.toString(), (e) => {
+        if (e) {
+          console.error(e)
+        }
+      })
+    }
   })
