@@ -5,11 +5,16 @@
   "repository": "https://github.com/Hiratake/dubstep-generator.git",
   "author": "Hiratake <hiratake@hiratake.xyz>",
   "license": "MIT",
-  "dependencies": {
-    "esbuild": "^0.12.17"
-  },
+  "dependencies": {},
   "scripts": {
     "build": "node scripts/build.js",
-    "dev": "node scripts/dev.js"
+    "dev": "node scripts/dev.js",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "esbuild": "^0.12.17",
+    "husky": "^7.0.1"
   }
 }
