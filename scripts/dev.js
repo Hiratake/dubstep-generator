@@ -1,13 +1,16 @@
 // dev.js
 
+require('fs')
+  .rmSync('./dist', { recursive: true, force: true })
+
 require('esbuild')
   .build({
     bundle: true,
     color: true,
-    entryPoints: ['./src/'],
+    entryPoints: ['./src/main.js'],
     logLevel: 'error',
     minify: true,
-    outfile: 'dist/index.js',
+    outfile: 'dist/main.js',
     platform: 'node',
     sourcemap: true,
     watch: {
