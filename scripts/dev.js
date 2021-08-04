@@ -1,71 +1,59 @@
 // dev.js
 
 const fs = require('fs')
-const chokidar = require('chokidar')
+const bs = require('browser-sync').create()
 const esbuild = require('esbuild')
-
-const path = {
-  page: {
-    src: './src/index.html',
-    dist: './dist/index.html',
-  },
-  script: {
-    src: './src/main.js',
-    dist: './dist/main.js',
-  },
-}
 
 const deleteFiles = () => {
   fs.rmSync('./dist', { recursive: true, force: true })
 }
-const copyFiles = () => {
-  fs.copyFile(path.page.src, path.page.dist, (err) => {
+
+const copyPage = () => {
+  fs.copyFile('./src/index.html', './dist/index.html', (err) => {
     if (err) {
       console.error(JSON.stringify(err, null, 2))
     }
   })
 }
 
+const buildScript = (callback = null) => {
+  esbuild
+    .build({
+      bundle: true,
+      color: true,
+      entryPoints: ['./src/main.js'],
+      logLevel: 'error',
+      minify: true,
+      outfile: './dist/main.js',
+      platform: 'node',
+      sourcemap: true,
+    })
+    .then(e => {
+      if (callback) {
+        callback()
+      }
+    })
+    .catch(err => {
+      console.error(JSON.stringify(err, null, 2))
+    })
+}
+
 deleteFiles()
+buildScript(copyPage)
 
-chokidar
-  .watch(path.page.src)
-  .on('change', () => {
-    copyFiles()
-  })
-
-esbuild
-  .build({
-    bundle: true,
-    color: true,
-    entryPoints: [path.script.src],
-    logLevel: 'error',
-    minify: true,
-    outfile: path.script.dist,
-    platform: 'node',
-    sourcemap: true,
-    watch: {
-      onRebuild: (err, res) => {
-        if (!err) {
-          if (res) {
-            if (res.warnings) {
-              res.warnings.forEach(e => {
-                console.error('Error: ', e.text)
-                console.error(
-                  'Path: ',
-                  `${e.location.file}:${e.location.line}:${e.location.column}`,
-                )
-                console.error(' -> ', e.location.lineText)
-              })
-            }
-          }
-        }
-      },
-    },
-  })
-  .catch(err => {
-    console.error(JSON.stringify(err, null, 2))
-  })
-  .then(e => {
-    copyFiles()
-  })
+bs.watch('./src/index.html').on('change', () => {
+  copyPage()
+  bs.reload()
+})
+bs.watch('./src/**/*.js').on('change', () => {
+  buildScript(bs.reload)
+})
+bs.init({
+  server: {
+    baseDir: './dist',
+  },
+  open: false,
+  ui: false,
+  notify: false,
+  logPrefix: '',
+})
