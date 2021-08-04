@@ -1,20 +1,39 @@
 {
-  "name": "dubstep-generator",
+  "name": "@hiratake/dubstep-generator",
   "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/Hiratake/dubstep-generator.git",
-  "author": "Hiratake <hiratake@hiratake.xyz>",
+  "description": "Dubstep emoji generator.",
+  "keywords": [
+    "emoji"
+  ],
+  "bugs": "https://github.com/Hiratake/dubstep-generator/issues",
   "license": "MIT",
-  "dependencies": {},
-  "scripts": {
-    "build": "node scripts/build.js",
-    "dev": "node scripts/dev.js",
-    "prepare": "husky install"
+  "author": {
+    "name": "Hiratake",
+    "url": "https://hiratake.xyz",
+    "email": "hiratake@hiratake.xyz"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hiratake/dubstep-generator.git"
+  },
+  "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "esbuild": "^0.12.17",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
     "husky": "^7.0.1"
+  },
+  "scripts": {
+    "build:js": "node scripts/build.js",
+    "build": "yarn lint && yarn build:js",
+    "dev": "node scripts/dev.js",
+    "lint:js": "eslint --ext \".js\" --ignore-path .gitignore .",
+    "lint": "yarn lint:js",
+    "prepare": "husky install"
   }
 }

@@ -12,7 +12,7 @@ require('esbuild')
     sourcemap: true,
     watch: {
       onRebuild: (err, res) => {
-        if(!err) {
+        if (!err) {
           if (res) {
             console.log(new Date().toLocaleString(), 'build succeeded.')
             if (res.warnings) {
@@ -20,7 +20,7 @@ require('esbuild')
                 console.error('Error: ', e.text)
                 console.error(
                   'Path: ',
-                  `${e.location.file}:${e.location.line}:${e.location.column}`
+                  `${e.location.file}:${e.location.line}:${e.location.column}`,
                 )
                 console.error(' -> ', e.location.lineText)
               })
