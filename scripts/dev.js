@@ -1,23 +1,53 @@
 // dev.js
 
-require('fs')
-  .rmSync('./dist', { recursive: true, force: true })
+const fs = require('fs')
+const chokidar = require('chokidar')
+const esbuild = require('esbuild')
 
-require('esbuild')
+const path = {
+  page: {
+    src: './src/index.html',
+    dist: './dist/index.html',
+  },
+  script: {
+    src: './src/main.js',
+    dist: './dist/main.js',
+  },
+}
+
+const deleteFiles = () => {
+  fs.rmSync('./dist', { recursive: true, force: true })
+}
+const copyFiles = () => {
+  fs.copyFile(path.page.src, path.page.dist, (err) => {
+    if (err) {
+      console.error(JSON.stringify(err, null, 2))
+    }
+  })
+}
+
+deleteFiles()
+
+chokidar
+  .watch(path.page.src)
+  .on('change', () => {
+    copyFiles()
+  })
+
+esbuild
   .build({
     bundle: true,
     color: true,
-    entryPoints: ['./src/main.js'],
+    entryPoints: [path.script.src],
     logLevel: 'error',
     minify: true,
-    outfile: 'dist/main.js',
+    outfile: path.script.dist,
     platform: 'node',
     sourcemap: true,
     watch: {
       onRebuild: (err, res) => {
         if (!err) {
           if (res) {
-            console.log(new Date().toLocaleString(), 'build succeeded.')
             if (res.warnings) {
               res.warnings.forEach(e => {
                 console.error('Error: ', e.text)
@@ -37,5 +67,5 @@ require('esbuild')
     console.error(JSON.stringify(err, null, 2))
   })
   .then(e => {
-    console.log('Build start...')
+    copyFiles()
   })
