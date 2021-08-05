@@ -1,0 +1,22 @@
+// layouts/header.scss
+
+@use '../includes' as *;
+
+.l-header {
+  width: 100%;
+  padding: 0 $size-base * 3;
+}
+
+.l-header__body {
+  width: 100%;
+  max-width: $size-width-content;
+  padding: $size-base * 3 0;
+  margin: auto;
+}
+
+.l-header__title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: $font-size-l3;
+  font-weight: $font-weight-bold;
+  color: $color-gray-1;
+}

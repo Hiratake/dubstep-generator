@@ -1,0 +1,10 @@
+// layouts/body.scss
+
+@use '../includes' as *;
+
+.l-body {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-auto-rows: auto;
+  background-color: $color-gray-6;
+}

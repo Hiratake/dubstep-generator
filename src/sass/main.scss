@@ -1,1 +1,10 @@
 // main.scss
+
+// foundations
+@use 'foundations/reset.scss';
+
+// layouts
+@use 'layouts/body.scss';
+@use 'layouts/header.scss';
+@use 'layouts/main.scss';
+@use 'layouts/footer.scss';

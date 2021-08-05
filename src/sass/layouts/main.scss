@@ -1,0 +1,17 @@
+// layouts/main.scss
+
+@use '../includes' as *;
+
+.l-main {
+  width: 100%;
+  padding: 0 $size-base * 3;
+}
+
+.l-main__body {
+  width: 100%;
+  max-width: $size-width-content;
+  padding: $size-base * 3;
+  margin: auto;
+  background-color: $color-white;
+  border-radius: $size-border-radius;
+}

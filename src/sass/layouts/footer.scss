@@ -1,0 +1,21 @@
+// layouts/footer.scss
+
+@use '../includes' as *;
+
+.l-footer {
+  width: 100%;
+  padding: 0 $size-base * 3;
+}
+
+.l-footer__body {
+  width: 100%;
+  max-width: $size-width-content;
+  padding: $size-base * 3 0;
+  margin: auto;
+}
+
+.l-footer__copyright {
+  font-family: 'Quicksand', sans-serif;
+  font-size: $font-size-s1;
+  font-weight: $font-weight-regular;
+}
