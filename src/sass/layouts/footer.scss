@@ -10,7 +10,7 @@
 .l-footer__body {
   width: 100%;
   max-width: $size-width-content;
-  padding: $size-base * 3 0;
+  padding: $size-base * 3 $size-base * 0.25;
   margin: auto;
 }
 

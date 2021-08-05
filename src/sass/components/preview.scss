@@ -1,0 +1,17 @@
+// components/preview.scss
+
+@use '../includes' as *;
+
+.c-preview {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-auto-rows: auto;
+  gap: $size-base * 2;
+  justify-items: center;
+}
+
+.c-preview__canvas {
+  display: block;
+  border: solid 1px $color-gray-4;
+  border-radius: $size-border-radius * 0.5;
+}
