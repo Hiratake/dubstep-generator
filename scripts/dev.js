@@ -1,10 +1,11 @@
 // dev.js
 
-const bs = require('browser-sync').create()
-const esbuild = require('esbuild')
-const fibers = require('fibers')
 const fs = require('fs')
+const esbuild = require('esbuild')
 const sass = require('sass')
+const fibers = require('fibers')
+const { ESLint } = require('eslint')
+const bs = require('browser-sync').create()
 
 const deleteFiles = () => {
   fs.rmSync('./dist', { recursive: true, force: true })
@@ -40,6 +41,18 @@ const buildScript = (callback = null) => {
     })
 }
 
+const lintingScript = () => {
+  (async () => {
+    const eslint = new ESLint()
+    const results = await eslint.lintFiles(['**/*.js'])
+    const formatter = await eslint.loadFormatter('stylish')
+    const resultText = formatter.format(results)
+    console.log(resultText)
+  })().catch((err) => {
+    console.error(err)
+  })
+}
+
 const compileStyle = () => {
   sass
     .render({
@@ -68,6 +81,7 @@ const compileStyle = () => {
 }
 
 deleteFiles()
+lintingScript()
 buildScript(copyPage)
 compileStyle()
 
@@ -76,6 +90,7 @@ bs.watch('./src/index.html').on('change', () => {
   bs.reload()
 })
 bs.watch('./src/**/*.js').on('change', () => {
+  lintingScript()
   buildScript(bs.reload)
 })
 bs.watch('./src/**/*.scss').on('change', () => {
