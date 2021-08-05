@@ -5,6 +5,7 @@ const esbuild = require('esbuild')
 const sass = require('sass')
 const fibers = require('fibers')
 const { ESLint } = require('eslint')
+const stylelint = require('stylelint')
 const bs = require('browser-sync').create()
 
 const deleteFiles = () => {
@@ -80,8 +81,27 @@ const compileStyle = () => {
     })
 }
 
+const lintingStyle = () => {
+  stylelint
+    .lint({
+      configFile: './stylelint.config.js',
+      files: 'src/**/*.scss',
+      ignorePath: '.gitignore',
+      formatter: 'string',
+    })
+    .then((res) => {
+      if (res.errored) {
+        console.log(res.output)
+      }
+    })
+    .catch((err) => {
+      console.error(err.stack)
+    })
+}
+
 deleteFiles()
 lintingScript()
+lintingStyle()
 buildScript(copyPage)
 compileStyle()
 
@@ -94,6 +114,7 @@ bs.watch('./src/**/*.js').on('change', () => {
   buildScript(bs.reload)
 })
 bs.watch('./src/**/*.scss').on('change', () => {
+  lintingStyle()
   compileStyle()
   bs.reload()
 })
