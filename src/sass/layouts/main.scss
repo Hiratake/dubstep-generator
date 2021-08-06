@@ -8,9 +8,13 @@
 }
 
 .l-main__body {
+  display: flex;
+  gap: $size-base * 5;
+  align-items: flex-start;
+  justify-content: space-between;
   width: 100%;
   max-width: $size-width-content;
-  padding: $size-base * 3;
+  padding: $size-base * 3 $size-base * 5 $size-base * 4;
   margin: auto;
   background-color: $color-white;
   border-radius: $size-border-radius;

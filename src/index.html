@@ -20,7 +20,23 @@
 
   <main class="l-main">
     <div class="l-main__body">
+      <div class="c-upload">
+        <h2 class="c-upload__heading">upload</h2>
+        <label id="upload" class="c-upload__dragger" for="file">
+          <p class="c-upload__text">
+            Drag and drop file here or <em>click to browse</em>
+          </p>
+          <input
+            id="file"
+            class="c-upload__input"
+            type="file"
+            name="file"
+            accept=".jpg,.png"
+          />
+        </label>
+      </div>
       <div class="c-preview">
+        <h2 class="c-preview__heading">preview</h2>
         <canvas id="preview" class="c-preview__canvas" width="200" height="200">
           preview
         </canvas>

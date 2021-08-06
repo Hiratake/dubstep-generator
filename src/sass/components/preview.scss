@@ -10,6 +10,11 @@
   justify-items: center;
 }
 
+.c-preview__heading {
+  font-size: $font-size-l1;
+  font-weight: $font-weight-bold;
+}
+
 .c-preview__canvas {
   display: block;
   border: solid 1px $color-gray-4;
