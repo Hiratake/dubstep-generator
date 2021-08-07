@@ -9,9 +9,10 @@
 
 .l-main__body {
   display: flex;
+  flex-wrap: wrap;
   gap: $size-base * 5;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
   max-width: $size-width-content;
   padding: $size-base * 3 $size-base * 5 $size-base * 4;
