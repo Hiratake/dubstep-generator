@@ -64,6 +64,20 @@ const draw = (image) => {
       renderWidth,
       renderHeight,
     )
+    let degree = 0
+    setInterval(function () {
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+      ctx.translate(canvasWidth / 2, canvasHeight / 2)
+      ctx.rotate(++degree * Math.PI / 180)
+      ctx.translate(-canvasWidth / 2, -canvasHeight / 2)
+      ctx.drawImage(
+        image,
+        (canvasWidth - renderWidth) / 2,
+        (canvasHeight - renderHeight) / 2,
+        renderWidth,
+        renderHeight,
+      )
+    }, 1)
   }
 }
 
