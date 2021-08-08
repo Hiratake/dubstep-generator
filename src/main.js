@@ -4,12 +4,12 @@ const file = document.getElementById('file')
 
 const createImage = async (image) => {
   return new Promise((resolve, reject) => {
-    const node = document.createElement('img')
+    const node = new Image()
     const reader = new FileReader()
     node.file = image
-    reader.onload = ((image) => {
-      return (e) => {
-        image.src = e.target.result
+    reader.onload = ((image) => (e) => {
+      image.src = e.target.result
+      image.onload = () => {
         resolve(image)
       }
     })(node)
