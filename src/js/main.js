@@ -1,41 +1,40 @@
-import canvas from './utils/canvas'
+const canvas = require('./utils/canvas')
 
 const upload = document.getElementById('upload')
 const file = document.getElementById('file')
 
-const draw = (image) => {
-  canvas({ targetId: 'preview' })
-    .then((res) => {
-      const imageWidth = image.width
-      const imageHeight = image.height
-      const renderWidth = image.width >= image.height
-        ? 200
-        : imageWidth * (200 / imageHeight)
-      const renderHeight = image.width >= image.height
-        ? imageHeight * (200 / imageWidth)
-        : 200
-      res.context.drawImage(
-        image,
-        (res.width - renderWidth) / 2,
-        (res.height - renderHeight) / 2,
-        renderWidth,
-        renderHeight,
-      )
-      let degree = 0
-      setInterval(function () {
-        res.context.clearRect(0, 0, res.width, res.height)
-        res.context.translate(res.width / 2, res.height / 2)
-        res.context.rotate(++degree * Math.PI / 180)
-        res.context.translate((res.width * (-1)) / 2, (res.height * (-1)) / 2)
-        res.context.drawImage(
-          image,
-          (res.width - renderWidth) / 2,
-          (res.height - renderHeight) / 2,
-          renderWidth,
-          renderHeight,
-        )
-      }, 1)
-    })
+const draw = async (image) => {
+  const res = await canvas({ targetId: 'preview' })
+
+  const imageWidth = image.width
+  const imageHeight = image.height
+  const renderWidth = image.width >= image.height
+    ? 200
+    : imageWidth * (200 / imageHeight)
+  const renderHeight = image.width >= image.height
+    ? imageHeight * (200 / imageWidth)
+    : 200
+  res.context.drawImage(
+    image,
+    (res.width - renderWidth) / 2,
+    (res.height - renderHeight) / 2,
+    renderWidth,
+    renderHeight,
+  )
+  let degree = 0
+  setInterval(function () {
+    res.clear()
+    res.context.translate(res.width / 2, res.height / 2)
+    res.context.rotate(++degree * Math.PI / 180)
+    res.context.translate((res.width * (-1)) / 2, (res.height * (-1)) / 2)
+    res.context.drawImage(
+      image,
+      (res.width - renderWidth) / 2,
+      (res.height - renderHeight) / 2,
+      renderWidth,
+      renderHeight,
+    )
+  }, 1)
 }
 
 const createImage = async (image) => {

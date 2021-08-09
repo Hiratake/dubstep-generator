@@ -1,29 +1,34 @@
 // canvas.js
 
+'use strict'
+
 /**
- * @param {Object} options Canvas options.
+ * @param {Object} options Options.
  * @param {String} options.targetId The id of the target canvas.
- * @returns {Promise}
+ * @return {Promise} Return value.
  */
-export default (options = { targetId: '' }) =>
-  new Promise((resolve, reject) => {
-    if (!options.targetId) {
-      reject(new Error('Target is not specified.'))
-    }
+module.exports = async (options) => {
+  const targetId = options.targetId
 
-    const targetElement = document.getElementById(options.targetId)
-    if (!targetElement) {
-      reject(new Error('Target is not found.'))
-    }
-    else if (targetElement.tagName.toLowerCase() !== 'canvas') {
-      reject(new Error('Target other than "canvas" is specified.'))
-    }
+  if (!targetId) {
+    throw Error('Target is not specified.')
+  }
 
-    const context = targetElement.getContext('2d')
+  const targetElement = document.getElementById(targetId)
 
-    resolve({
-      context: context,
-      width: targetElement.width,
-      height: targetElement.height,
-    })
-  })
+  if (!targetElement) {
+    throw Error('Target is not found.')
+  }
+  if (targetElement.tagName.toLowerCase() !== 'canvas') {
+    throw Error('Target other than "canvas" is specified.')
+  }
+
+  return {
+    context: targetElement.getContext('2d'),
+    width: targetElement.width,
+    height: targetElement.height,
+    clear () {
+      this.context.clearRect(0, 0, this.width, this.height)
+    },
+  }
+}
