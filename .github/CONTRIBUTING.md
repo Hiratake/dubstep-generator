@@ -41,6 +41,7 @@ Any contribution to this project is more than welcome🚀
   - 先頭に「型」「: （コロン + 半角スペース）」をいれ、その後ろに概要を記述します。
 - 2行目には空行をいれます（本文を記述しない場合は不要）。
 - 3行目以降には本文を記述します。省略できます。
+- `issue` に関連するコミットの場合は、該当 `issue` の番号を本文の後に記載してください。
 
 1行目に記述する「型」には以下のものが許可されています。  
 選択に困る場合は、とりあえず `chore` を使用します。複数当てはまる場合は、可能な限り複数のコミットに分割するようにしてください。
@@ -71,7 +72,7 @@ Fixes #3
 
 ### Linting
 
-コードの書き方を統一するため、 [ESLint](https://eslint.org/) と [stylelint](https://stylelint.io/) を使用しています。変更をコミットする前に `npm run lint` を実行してエラーとならないことを確認してください。  
+コードの書き方を統一するため、 [ESLint](https://eslint.org/) と [stylelint](https://stylelint.io/) を使用しています。変更をコミットする前に `yarn lint` を実行してエラーとならないことを確認してください。  
 [Visual Studio Code](https://code.visualstudio.com/) を使用している場合は、拡張機能を追加することをおすすめします。
 
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
