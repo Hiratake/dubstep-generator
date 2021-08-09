@@ -25,7 +25,7 @@ const buildScript = (callback = null) => {
     .build({
       bundle: true,
       color: true,
-      entryPoints: ['./src/main.js'],
+      entryPoints: ['./src/js/main.js'],
       logLevel: 'error',
       minify: true,
       outfile: './dist/main.js',

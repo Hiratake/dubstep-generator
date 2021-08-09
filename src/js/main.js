@@ -1,6 +1,42 @@
-const canvas = document.getElementById('preview')
+import canvas from './utils/canvas'
+
 const upload = document.getElementById('upload')
 const file = document.getElementById('file')
+
+const draw = (image) => {
+  canvas({ targetId: 'preview' })
+    .then((res) => {
+      const imageWidth = image.width
+      const imageHeight = image.height
+      const renderWidth = image.width >= image.height
+        ? 200
+        : imageWidth * (200 / imageHeight)
+      const renderHeight = image.width >= image.height
+        ? imageHeight * (200 / imageWidth)
+        : 200
+      res.context.drawImage(
+        image,
+        (res.width - renderWidth) / 2,
+        (res.height - renderHeight) / 2,
+        renderWidth,
+        renderHeight,
+      )
+      let degree = 0
+      setInterval(function () {
+        res.context.clearRect(0, 0, res.width, res.height)
+        res.context.translate(res.width / 2, res.height / 2)
+        res.context.rotate(++degree * Math.PI / 180)
+        res.context.translate((res.width * (-1)) / 2, (res.height * (-1)) / 2)
+        res.context.drawImage(
+          image,
+          (res.width - renderWidth) / 2,
+          (res.height - renderHeight) / 2,
+          renderWidth,
+          renderHeight,
+        )
+      }, 1)
+    })
+}
 
 const createImage = async (image) => {
   return new Promise((resolve, reject) => {
@@ -42,43 +78,6 @@ const uploadImage = (image) => {
     showImage(name, res.cloneNode())
     draw(res)
   })
-}
-
-const draw = (image) => {
-  if (canvas.getContext) {
-    const ctx = canvas.getContext('2d')
-    const canvasWidth = canvas.getAttribute('width')
-    const canvasHeight = canvas.getAttribute('height')
-    const imageWidth = image.width
-    const imageHeight = image.height
-    const renderWidth = image.width >= image.height
-      ? 200
-      : imageWidth * (200 / imageHeight)
-    const renderHeight = image.width >= image.height
-      ? imageHeight * (200 / imageWidth)
-      : 200
-    ctx.drawImage(
-      image,
-      (canvasWidth - renderWidth) / 2,
-      (canvasHeight - renderHeight) / 2,
-      renderWidth,
-      renderHeight,
-    )
-    let degree = 0
-    setInterval(function () {
-      ctx.clearRect(0, 0, canvasWidth, canvasHeight)
-      ctx.translate(canvasWidth / 2, canvasHeight / 2)
-      ctx.rotate(++degree * Math.PI / 180)
-      ctx.translate(-canvasWidth / 2, -canvasHeight / 2)
-      ctx.drawImage(
-        image,
-        (canvasWidth - renderWidth) / 2,
-        (canvasHeight - renderHeight) / 2,
-        renderWidth,
-        renderHeight,
-      )
-    }, 1)
-  }
 }
 
 upload.addEventListener('dragover', (e) => {
