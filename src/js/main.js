@@ -1,16 +1,30 @@
+// main.js
+
+'use strict'
+
 const file = require('./utils/file')
+const image = require('./utils/image')
 const canvas = require('./utils/canvas')
 
-file({ targetId: 'file', dropAreaId: 'upload' }, (res) => {
-  const name = res.name
-  createImage(res).then((res) => {
-    showImage(name, res.cloneNode())
-    draw(res)
-  })
+const fileInputId = 'file'
+const fileDropAreaId = 'upload'
+const canvasId = 'preview'
+
+file({ targetId: fileInputId, dropAreaId: fileDropAreaId }, async (file) => {
+  const res = await image({ image: file })
+
+  const dropArea = document.getElementById(fileDropAreaId)
+  dropArea.prepend((() => {
+    const element = res.element.cloneNode()
+    element.classList.add('c-upload__image')
+    return element
+  })())
+
+  draw(res.element)
 })
 
 const draw = async (image) => {
-  const res = await canvas({ targetId: 'preview' })
+  const res = canvas({ targetId: canvasId })
 
   const imageWidth = image.width
   const imageHeight = image.height
@@ -41,27 +55,4 @@ const draw = async (image) => {
       renderHeight,
     )
   }, 1)
-}
-
-const createImage = async (image) => {
-  return new Promise((resolve, reject) => {
-    const node = new Image()
-    const reader = new FileReader()
-    node.file = image
-    reader.onload = ((image) => (e) => {
-      image.src = e.target.result
-      image.onload = () => {
-        resolve(image)
-      }
-    })(node)
-    reader.onerror = (e) => {
-      reject(e)
-    }
-    reader.readAsDataURL(image)
-  })
-}
-
-const showImage = (name, image) => {
-  image.classList.add('c-upload__image')
-  // upload.prepend(image)
 }

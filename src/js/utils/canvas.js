@@ -5,9 +5,9 @@
 /**
  * @param {Object} options オプション
  * @param {String} options.targetId 対象となるキャンバスのID
- * @return {Promise}
+ * @return {Object}
  */
-module.exports = async (options) => {
+module.exports = (options = {}) => {
   const targetId = options.targetId
 
   if (!targetId) {

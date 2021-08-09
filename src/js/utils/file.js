@@ -7,7 +7,6 @@
  * @param {String} options.targetId 対象となるファイル形式のインプットタグのID
  * @param {String} options.dropAreaId 対象となるドラッグ＆ドロップエリアのID
  * @param {Function} callback 画像が選択された場合に実行される関数
- * @return {Promise}
  */
 module.exports = (options = {}, callback = null) => {
   const targetId = options.targetId ? options.targetId : ''
