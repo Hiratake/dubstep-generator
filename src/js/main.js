@@ -1,7 +1,13 @@
+const file = require('./utils/file')
 const canvas = require('./utils/canvas')
 
-const upload = document.getElementById('upload')
-const file = document.getElementById('file')
+file({ targetId: 'file', dropAreaId: 'upload' }, (res) => {
+  const name = res.name
+  createImage(res).then((res) => {
+    showImage(name, res.cloneNode())
+    draw(res)
+  })
+})
 
 const draw = async (image) => {
   const res = await canvas({ targetId: 'preview' })
@@ -55,53 +61,7 @@ const createImage = async (image) => {
   })
 }
 
-const checkImage = (image) => {
-  if (typeof image !== 'undefined') {
-    const jpeg = image.type && image.type === 'image/jpeg'
-    const png = image.type && image.type === 'image/png'
-    return !!(jpeg || png)
-  }
-  else {
-    return false
-  }
-}
-
 const showImage = (name, image) => {
   image.classList.add('c-upload__image')
-  upload.prepend(image)
+  // upload.prepend(image)
 }
-
-const uploadImage = (image) => {
-  const name = image.name
-  createImage(image).then((res) => {
-    showImage(name, res.cloneNode())
-    draw(res)
-  })
-}
-
-upload.addEventListener('dragover', (e) => {
-  e.preventDefault()
-  upload.classList.add('is-dragover')
-})
-upload.addEventListener('dragleave', (e) => {
-  e.preventDefault()
-  upload.classList.remove('is-dragover')
-})
-
-upload.addEventListener('drop', (e) => {
-  const image = e.dataTransfer.files
-  e.preventDefault()
-  upload.classList.remove('is-dragover')
-  if (checkImage(image[0])) {
-    file.files = image
-    uploadImage(file.files[0])
-  }
-})
-file.addEventListener('change', (e) => {
-  if (checkImage(e.target.files[0])) {
-    uploadImage(file.files[0])
-  }
-  else {
-    file.value = ''
-  }
-}, false)

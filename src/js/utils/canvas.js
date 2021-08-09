@@ -3,9 +3,9 @@
 'use strict'
 
 /**
- * @param {Object} options Options.
- * @param {String} options.targetId The id of the target canvas.
- * @return {Promise} Return value.
+ * @param {Object} options オプション
+ * @param {String} options.targetId 対象となるキャンバスのID
+ * @return {Promise}
  */
 module.exports = async (options) => {
   const targetId = options.targetId
@@ -14,19 +14,19 @@ module.exports = async (options) => {
     throw Error('Target is not specified.')
   }
 
-  const targetElement = document.getElementById(targetId)
+  const target = document.getElementById(targetId)
 
-  if (!targetElement) {
+  if (!target) {
     throw Error('Target is not found.')
   }
-  if (targetElement.tagName.toLowerCase() !== 'canvas') {
-    throw Error('Target other than "canvas" is specified.')
+  if (target.tagName.toLowerCase() !== 'canvas') {
+    throw Error('Other than "canvas" is specified.')
   }
 
   return {
-    context: targetElement.getContext('2d'),
-    width: targetElement.width,
-    height: targetElement.height,
+    context: target.getContext('2d'),
+    width: target.width,
+    height: target.height,
     clear () {
       this.context.clearRect(0, 0, this.width, this.height)
     },
