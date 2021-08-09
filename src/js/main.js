@@ -11,16 +11,22 @@ const fileDropAreaId = 'upload'
 const canvasId = 'preview'
 
 file({ targetId: fileInputId, dropAreaId: fileDropAreaId }, async (file) => {
-  const res = await image({ image: file })
+  const uploadImage = await image({ image: file })
 
   const dropArea = document.getElementById(fileDropAreaId)
+  const dropAreaImageList = [
+    ...dropArea.getElementsByClassName('c-upload__image'),
+  ]
+  dropAreaImageList.forEach((item) => {
+    item.remove()
+  })
   dropArea.prepend((() => {
-    const element = res.element.cloneNode()
+    const element = uploadImage.element.cloneNode()
     element.classList.add('c-upload__image')
     return element
   })())
 
-  draw(res.element)
+  draw(uploadImage.element)
 })
 
 const draw = async (image) => {
