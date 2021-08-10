@@ -17,6 +17,8 @@ const fileInputId = 'file'
 const fileDropAreaId = 'upload'
 const canvasId = 'preview'
 
+let animation
+
 file({ targetId: fileInputId, dropAreaId: fileDropAreaId }, async (file) => {
   const uploadImage = await image({ image: file })
   const preview = await canvas({ targetId: canvasId })
@@ -42,26 +44,32 @@ file({ targetId: fileInputId, dropAreaId: fileDropAreaId }, async (file) => {
   })())
 
   let currentFrame = 1
-  setInterval(() => {
-    const rate = currentFrame / FRAMECOUNT
+  animation = setInterval(() => {
+    try {
+      const rate = currentFrame / FRAMECOUNT
 
-    preview.context.save()
-    preview.clear()
+      preview.context.save()
+      preview.clear()
 
-    effects.dubstep(preview.context, preview.width, preview.height, rate)
+      effects.dubstep(preview.context, preview.width, preview.height, rate)
 
-    preview.context.drawImage(
-      uploadImage.element,
-      (preview.width - uploadImage.renderWidth) / 2,
-      (preview.height - uploadImage.renderHeight) / 2,
-      uploadImage.renderWidth,
-      uploadImage.renderHeight,
-    )
-    preview.context.restore()
+      preview.context.drawImage(
+        uploadImage.element,
+        (preview.width - uploadImage.renderWidth) / 2,
+        (preview.height - uploadImage.renderHeight) / 2,
+        uploadImage.renderWidth,
+        uploadImage.renderHeight,
+      )
+      preview.context.restore()
 
-    currentFrame = currentFrame + 1
-    if (currentFrame > FRAMECOUNT) {
-      currentFrame = 1
+      currentFrame = currentFrame + 1
+      if (currentFrame > FRAMECOUNT) {
+        currentFrame = 1
+      }
+    }
+    catch (e) {
+      console.error(e)
+      clearInterval(animation)
     }
   }, 1000 / FRAMERATE)
 })
