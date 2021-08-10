@@ -3,6 +3,16 @@
 'use strict'
 
 /**
+ * @param {Object} file ファイルオブジェクト
+ * @returns {Boolean} ファイルの形式がJPEGもしくはPNG形式であるか
+ */
+const checkFormat = (file) => {
+  return typeof file !== 'undefined' && file.type
+    ? !!(file.type === 'image/jpeg' || file.type === 'image/png')
+    : false
+}
+
+/**
  * @param {Object} options オプション
  * @param {String} options.targetId 対象となるファイル形式のインプットタグのID
  * @param {String} options.dropAreaId 対象となるドラッグ＆ドロップエリアのID
@@ -59,14 +69,4 @@ module.exports = (options = {}, callback = null) => {
       target.value = ''
     }
   })
-}
-
-/**
- * @param {Object} file ファイルオブジェクト
- * @returns {Boolean} ファイルの形式がJPEGもしくはPNG形式であるか
- */
-const checkFormat = (file) => {
-  return typeof file !== 'undefined' && file.type
-    ? !!(file.type === 'image/jpeg' || file.type === 'image/png')
-    : false
 }

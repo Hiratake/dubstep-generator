@@ -28,6 +28,8 @@ module.exports = async (options = {}) => {
           name: image.name,
           dataURL,
           element,
+          width: element.width,
+          height: element.height,
         })
       }
     }

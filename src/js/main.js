@@ -2,9 +2,16 @@
 
 'use strict'
 
+const FRAMERATE = 60
+const FRAMECOUNT = 274
+
 const file = require('./utils/file')
 const image = require('./utils/image')
 const canvas = require('./utils/canvas')
+
+const effects = {
+  dubstep: require('./effects/dubstep'),
+}
 
 const fileInputId = 'file'
 const fileDropAreaId = 'upload'
@@ -12,6 +19,14 @@ const canvasId = 'preview'
 
 file({ targetId: fileInputId, dropAreaId: fileDropAreaId }, async (file) => {
   const uploadImage = await image({ image: file })
+  const preview = await canvas({ targetId: canvasId })
+
+  uploadImage.renderWidth = uploadImage.width >= uploadImage.height
+    ? 200
+    : uploadImage.width * (200 / uploadImage.height)
+  uploadImage.renderHeight = uploadImage.width >= uploadImage.height
+    ? uploadImage.height * (200 / uploadImage.width)
+    : 200
 
   const dropArea = document.getElementById(fileDropAreaId)
   const dropAreaImageList = [
@@ -26,39 +41,27 @@ file({ targetId: fileInputId, dropAreaId: fileDropAreaId }, async (file) => {
     return element
   })())
 
-  draw(uploadImage.element)
-})
+  let currentFrame = 1
+  setInterval(() => {
+    const rate = currentFrame / FRAMECOUNT
 
-const draw = async (image) => {
-  const res = canvas({ targetId: canvasId })
+    preview.context.save()
+    preview.clear()
 
-  const imageWidth = image.width
-  const imageHeight = image.height
-  const renderWidth = image.width >= image.height
-    ? 200
-    : imageWidth * (200 / imageHeight)
-  const renderHeight = image.width >= image.height
-    ? imageHeight * (200 / imageWidth)
-    : 200
-  res.context.drawImage(
-    image,
-    (res.width - renderWidth) / 2,
-    (res.height - renderHeight) / 2,
-    renderWidth,
-    renderHeight,
-  )
-  let degree = 0
-  setInterval(function () {
-    res.clear()
-    res.context.translate(res.width / 2, res.height / 2)
-    res.context.rotate(++degree * Math.PI / 180)
-    res.context.translate((res.width * (-1)) / 2, (res.height * (-1)) / 2)
-    res.context.drawImage(
-      image,
-      (res.width - renderWidth) / 2,
-      (res.height - renderHeight) / 2,
-      renderWidth,
-      renderHeight,
+    effects.dubstep(preview.context, preview.width, preview.height, rate)
+
+    preview.context.drawImage(
+      uploadImage.element,
+      (preview.width - uploadImage.renderWidth) / 2,
+      (preview.height - uploadImage.renderHeight) / 2,
+      uploadImage.renderWidth,
+      uploadImage.renderHeight,
     )
-  }, 1)
-}
+    preview.context.restore()
+
+    currentFrame = currentFrame + 1
+    if (currentFrame > FRAMECOUNT) {
+      currentFrame = 1
+    }
+  }, 1000 / FRAMERATE)
+})
