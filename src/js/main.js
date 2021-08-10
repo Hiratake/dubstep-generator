@@ -44,6 +44,7 @@ file({ targetId: fileInputId, dropAreaId: fileDropAreaId }, async (file) => {
   })())
 
   let currentFrame = 1
+  clearInterval(animation)
   animation = setInterval(() => {
     try {
       const rate = currentFrame / FRAMECOUNT
