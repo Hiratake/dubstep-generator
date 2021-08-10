@@ -32,7 +32,7 @@ module.exports = (context, width, height, rate) => {
   context.translate(width / 2, height / 2)
 
   const points = [0, 0.06579, 0.18202, 0.24123, 0.29825, 0.62061, 0.75219, 1]
-  const scales = [0, 2.2524, 2.5631, 1.3981, 1.7678, 2.4854, 0, 0]
+  const scales = [0, 1.216296, 1.384074, 0.754974, 0.954612, 1.342116, 0, 0]
   const angles = [0, -24.47, -24.47, 0, 31.46, 115.34, 108.09, 108.09]
 
   const index = points.findIndex(item => rate <= item)
