@@ -4,17 +4,32 @@
 
 .l-header {
   width: 100%;
-  padding: 0 $size-base * 3;
+  background-color: $color-white;
+  border-bottom: solid 1px $color-gray-3;
 }
 
 .l-header__body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   max-width: $size-width-content;
-  padding: $size-base * 3 0;
+  padding: $size-base * 4 $size-base * 3;
   margin: auto;
 }
 
 .l-header__title {
   font-size: $font-size-l3;
   font-weight: $font-weight-bold;
+}
+
+.l-header__link {
+  font-size: $font-size-l2;
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.1s;
+
+  &:hover {
+    opacity: 0.72;
+  }
 }
