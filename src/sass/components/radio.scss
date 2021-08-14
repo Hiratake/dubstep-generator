@@ -1,0 +1,66 @@
+// components/radio.scss
+
+@use '../includes' as *;
+
+.c-radio {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-auto-rows: auto;
+  gap: $size-base * 1;
+  border: none;
+}
+
+.c-radio__item {
+  position: relative;
+  display: flex;
+  gap: $size-base * 1;
+  align-items: center;
+  cursor: pointer;
+
+  &::before {
+    width: $size-base * 2;
+    height: $size-base * 2;
+    content: '';
+    background-color: $color-white;
+    border: solid 1px $color-gray-1;
+    border-radius: 50%;
+  }
+
+  &:hover,
+  &:focus-within {
+    &::before {
+      border-color: $color-primary;
+    }
+  }
+}
+
+.c-radio__label {
+  font-size: $font-size-base;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: $size-base * 0.5;
+    display: block;
+    width: $size-base * 1;
+    height: $size-base * 1;
+    margin: auto;
+    content: '';
+    background-color: transparent;
+    border-radius: 50%;
+    transition: background-color 0.1s;
+  }
+}
+
+.c-radio__input {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+
+  &:checked + .c-radio__label {
+    &::before {
+      background-color: $color-primary;
+    }
+  }
+}
