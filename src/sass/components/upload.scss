@@ -3,45 +3,49 @@
 @use '../includes' as *;
 
 .c-upload {
-  display: grid;
-  flex-grow: 1;
-  grid-template-columns: 100%;
-  grid-auto-rows: auto;
-  gap: $size-base * 2;
-  justify-items: center;
-}
-
-.c-upload__heading {
-  font-size: $font-size-l1;
-  font-weight: $font-weight-bold;
+  width: 100%;
 }
 
 .c-upload__dragger {
+  position: relative;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-auto-rows: auto;
+  gap: $size-base * 2;
   width: 100%;
-  padding: $size-base * 3 $size-base * 3;
+  padding: $size-base * 3 $size-base * 5;
   text-align: center;
   cursor: pointer;
-  border: dashed 1px $color-gray-4;
-  border-radius: $size-border-radius * 0.5;
-
-  &.is-dragover {
-    background-color: rgba(255, 180, 29, 0.2);
-    border-width: 2px;
-  }
+  background: transparent;
+  border: dashed 2px $color-gray-1;
+  border-radius: $size-border-radius;
+  transition: border-color 0.1s;
 
   &.is-dragover,
   &:hover,
   &:focus-within {
     border-color: $color-primary;
   }
-}
 
-.c-upload__image {
-  max-width: 200px;
+  &::after {
+    position: absolute;
+    top: $size-base * 0.5;
+    right: $size-base * 0.5;
+    bottom: $size-base * 0.5;
+    left: $size-base * 0.5;
+    content: '';
+    background-color: $color-primary;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+
+  &.is-dragover::after {
+    opacity: 0.2;
+  }
 }
 
 .c-upload__text {
-  padding: $size-base * 2 0;
   font-size: $font-size-s1;
 
   em {
@@ -54,4 +58,8 @@
   position: absolute;
   pointer-events: none;
   opacity: 0;
+}
+
+.c-upload__image {
+  max-width: 100%;
 }

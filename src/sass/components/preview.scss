@@ -3,20 +3,19 @@
 @use '../includes' as *;
 
 .c-preview {
-  display: grid;
-  grid-template-columns: 100%;
-  grid-auto-rows: auto;
-  gap: $size-base * 2;
-  justify-items: center;
-}
-
-.c-preview__heading {
-  font-size: $font-size-l1;
-  font-weight: $font-weight-bold;
+  width: 100%;
+  background-image:
+    linear-gradient(45deg, $color-gray-2 25%, transparent 25%, transparent 75%, $color-gray-2 75%, $color-gray-2),
+    linear-gradient(45deg, $color-gray-2 25%, transparent 25%, transparent 75%, $color-gray-2 75%, $color-gray-2);
+  background-repeat: repeat;
+  background-position: 0 0, 10px 10px;
+  background-size: calc(2 * 10px) calc(2 * 10px);
+  border-radius: $size-border-radius;
 }
 
 .c-preview__canvas {
   display: block;
+  width: 100%;
   border: solid 1px $color-gray-4;
   border-radius: $size-border-radius * 0.5;
 }
