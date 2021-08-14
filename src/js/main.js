@@ -2,16 +2,17 @@
 
 'use strict'
 
-const FRAMERATE = 60
-const FRAMECOUNT = 274
+import { FRAMERATE } from './constants/animation'
+
+import EFFECT_DUBSTEP from './effects/dubstep'
+
+const effects = [
+  EFFECT_DUBSTEP,
+]
 
 const file = require('./utils/file')
 const image = require('./utils/image')
 const canvas = require('./utils/canvas')
-
-const effects = {
-  dubstep: require('./effects/dubstep'),
-}
 
 const fileInputId = 'file'
 const fileDropAreaId = 'upload'
@@ -43,16 +44,17 @@ file({ targetId: fileInputId, dropAreaId: fileDropAreaId }, async (file) => {
     return element
   })())
 
+  const effect = effects.find((item) => item.name === 'dubstep')
   let currentFrame = 1
   clearInterval(animation)
   animation = setInterval(() => {
     try {
-      const rate = currentFrame / FRAMECOUNT
+      const rate = currentFrame / effect.framecount
 
       preview.context.save()
       preview.clear()
 
-      effects.dubstep(preview.context, preview.width, preview.height, rate)
+      effect.effect(preview.context, rate, preview.width, preview.height)
 
       preview.context.drawImage(
         uploadImage.element,
@@ -64,7 +66,7 @@ file({ targetId: fileInputId, dropAreaId: fileDropAreaId }, async (file) => {
       preview.context.restore()
 
       currentFrame = currentFrame + 1
-      if (currentFrame > FRAMECOUNT) {
+      if (currentFrame > effect.framecount) {
         currentFrame = 1
       }
     }
