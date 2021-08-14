@@ -1,0 +1,53 @@
+// components/button.scss
+
+@use '../includes' as *;
+
+.c-button {
+  position: relative;
+  display: grid;
+  grid-template-rows: $size-base * 5;
+  grid-template-columns: $size-base * 6 1fr;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  border: solid 1px currentColor;
+  border-radius: $size-border-radius;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    color: inherit;
+    pointer-events: none;
+    content: '';
+    background-color: currentColor;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+
+  &:hover {
+    &::before {
+      opacity: 0.1;
+    }
+  }
+}
+
+.c-button__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: $font-size-l1;
+  border-right: solid 1px currentColor;
+}
+
+.c-button__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-l1;
+  font-weight: $font-weight-bold;
+}
