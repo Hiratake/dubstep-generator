@@ -5,9 +5,13 @@
 import { FRAMERATE } from './constants/animation'
 
 import EFFECT_DUBSTEP from './effects/dubstep'
+import EFFECT_HOPPING from './effects/hopping'
+import EFFECT_DEDDING from './effects/dedding'
 
 const effects = [
   EFFECT_DUBSTEP,
+  EFFECT_HOPPING,
+  EFFECT_DEDDING,
 ]
 
 const file = require('./utils/file')
