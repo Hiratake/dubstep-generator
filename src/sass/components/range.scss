@@ -1,0 +1,73 @@
+// components/range.scss
+
+@use '../includes' as *;
+
+.c-range {
+  position: relative;
+  width: 100%;
+  padding-top: $size-base * 2;
+}
+
+.c-range__label {
+  position: absolute;
+  top: 0;
+  font-size: $font-size-s3;
+  font-weight: $font-weight-bold;
+
+  &--min {
+    @extend .c-range__label;
+
+    left: 0;
+  }
+
+  &--max {
+    @extend .c-range__label;
+
+    right: 0;
+  }
+}
+
+.c-range__input {
+  display: block;
+  width: 100%;
+  height: $size-base * 0.5;
+  margin: $size-base * 1 0;
+  appearance: none;
+  cursor: pointer;
+  background-color: $color-gray-3;
+  border-radius: $size-border-radius * 0.5;
+  outline: none;
+
+  &::-moz-range-thumb {
+    width: $size-base * 2;
+    height: $size-base * 2;
+    background-color: $color-white;
+    border: solid 1px $color-gray-2;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.16);
+  }
+
+  &::-moz-focus-outer {
+    border: 0;
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: $size-base * 2;
+    height: $size-base * 2;
+    background-color: $color-white;
+    border: solid 1px $color-gray-2;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.16);
+  }
+
+  &:focus {
+    &::-moz-range-thumb {
+      border-color: $color-primary;
+    }
+
+    &::-webkit-slider-thumb {
+      border-color: $color-primary;
+    }
+  }
+}

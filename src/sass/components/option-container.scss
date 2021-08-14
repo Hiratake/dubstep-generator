@@ -8,7 +8,7 @@
   grid-auto-rows: auto;
   gap: $size-base * 4;
   width: 100%;
-  padding: $size-base * 3;
+  padding: $size-base * 3 $size-base * 6 $size-base * 3 $size-base * 3;
   background-color: $color-white;
   border-radius: $size-border-radius;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
