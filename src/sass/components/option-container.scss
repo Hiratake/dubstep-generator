@@ -1,0 +1,32 @@
+// components/option-container.scss
+
+@use '../includes' as *;
+
+.c-option-container {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-auto-rows: auto;
+  gap: $size-base * 4;
+  width: 100%;
+  padding: $size-base * 3;
+  background-color: $color-white;
+  border-radius: $size-border-radius;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
+}
+
+.c-option-container__header {
+  width: 100%;
+}
+
+.c-option-container__title {
+  font-size: $font-size-l3;
+  font-weight: $font-weight-bold;
+}
+
+.c-option-container__body {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-auto-rows: auto;
+  gap: $size-base * 3;
+  width: 100%;
+}

@@ -1,0 +1,24 @@
+// components/option.scss
+
+@use '../includes' as *;
+
+.c-option {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-auto-rows: auto;
+  gap: $size-base * 2;
+  width: 100%;
+}
+
+.c-option__header {
+  width: 100%;
+}
+
+.c-option__title {
+  font-size: $font-size-l1;
+  font-weight: $font-weight-bold;
+}
+
+.c-option__body {
+  width: 100%;
+}

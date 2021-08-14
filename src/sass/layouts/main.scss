@@ -23,10 +23,10 @@
   grid-template-columns: 100%;
   grid-auto-rows: auto;
   gap: $size-base * 1;
-  text-align: center;
 }
 
 .l-main__arrow {
   padding: $size-base * 1 0;
-  font-size: $font-size-l3;
+  font-size: $font-size-l4;
+  text-align: center;
 }
