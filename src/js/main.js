@@ -24,16 +24,40 @@ const canvasId = 'preview'
 
 let animation
 
+/**
+ * エフェクトを適用する関数
+ * @param {Object} context Canvasのコンテキスト
+ * @param {Object} image 描画する画像
+ * @param {Object} effect 適用するエフェクト
+ * @param {Number} currentFrame 現在のフレーム番号
+ * @returns {Number} 次のフレーム番号
+ */
+const draw = (context, image, effect, currentFrame = 1) => {
+  const width = image.width >= image.height
+    ? context.canvas.width
+    : image.width * (context.canvas.height / image.height)
+  const height = image.width >= image.height
+    ? image.height * (context.canvas.width / image.width)
+    : context.canvas.height
+  const rate = currentFrame / effect.framecount
+
+  context.save()
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+  effect.effect(context, rate)
+  context.drawImage(
+    image,
+    (context.canvas.width - width) / 2,
+    (context.canvas.height - height) / 2,
+    width,
+    height,
+  )
+  context.restore()
+  return currentFrame >= effect.framecount ? 1 : currentFrame + 1
+}
+
 file({ targetId: fileInputId, dropAreaId: fileDropAreaId }, async (file) => {
   const uploadImage = await image({ image: file })
   const preview = await canvas({ targetId: canvasId })
-
-  uploadImage.renderWidth = uploadImage.width >= uploadImage.height
-    ? 200
-    : uploadImage.width * (200 / uploadImage.height)
-  uploadImage.renderHeight = uploadImage.width >= uploadImage.height
-    ? uploadImage.height * (200 / uploadImage.width)
-    : 200
 
   const dropArea = document.getElementById(fileDropAreaId)
   const dropAreaImageList = [
@@ -53,26 +77,12 @@ file({ targetId: fileInputId, dropAreaId: fileDropAreaId }, async (file) => {
   clearInterval(animation)
   animation = setInterval(() => {
     try {
-      const rate = currentFrame / effect.framecount
-
-      preview.context.save()
-      preview.clear()
-
-      effect.effect(preview.context, rate, preview.width, preview.height)
-
-      preview.context.drawImage(
+      currentFrame = draw(
+        preview.context,
         uploadImage.element,
-        (preview.width - uploadImage.renderWidth) / 2,
-        (preview.height - uploadImage.renderHeight) / 2,
-        uploadImage.renderWidth,
-        uploadImage.renderHeight,
+        effect,
+        currentFrame,
       )
-      preview.context.restore()
-
-      currentFrame = currentFrame + 1
-      if (currentFrame > effect.framecount) {
-        currentFrame = 1
-      }
     }
     catch (e) {
       console.error(e)

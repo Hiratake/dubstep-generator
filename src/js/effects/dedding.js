@@ -9,10 +9,11 @@ const FRAMECOUNT = 274
  * エフェクトの実行をする関数
  * @param {Object} context Canvasのコンテキスト
  * @param {Number} rate アニメーションの進んだ割合
- * @param {Number} width Canvasの幅
- * @param {Number} height Canvasの高さ
  */
-const effect = (context, rate, width, height) => {
+const effect = (context, rate) => {
+  const width = context.canvas.width
+  const height = context.canvas.height
+
   context.translate(width / 2, height / 2)
 
   // dedding code here
