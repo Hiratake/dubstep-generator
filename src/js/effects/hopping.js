@@ -24,5 +24,5 @@ const effect = (context, rate) => {
 export default {
   name: NAME,
   framecount: FRAMECOUNT,
-  effect,
+  apply: effect,
 }

@@ -43,7 +43,7 @@ const draw = (context, image, effect, currentFrame = 1) => {
 
   context.save()
   context.clearRect(0, 0, context.canvas.width, context.canvas.height)
-  effect.effect(context, rate)
+  effect.apply(context, rate)
   context.drawImage(
     image,
     (context.canvas.width - width) / 2,
