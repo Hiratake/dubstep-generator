@@ -8,14 +8,22 @@
 
 .l-main__body {
   display: grid;
-  grid-template-rows: auto;
-  grid-template-columns: 3fr 5fr;
+  grid-template-columns: 100%;
+  grid-auto-rows: auto;
   gap: $size-base * 3;
   align-items: flex-start;
   width: 100%;
   max-width: $size-width-content;
   padding: $size-base * 4 $size-base * 3;
   margin: auto;
+
+  @include breakpoint(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include breakpoint(md) {
+    grid-template-columns: 3fr 5fr;
+  }
 }
 
 .l-main__container {

@@ -3,7 +3,14 @@
 $size-base: 8px;
 $size-width-content: 768px;
 $size-border-radius: 8px;
+$size-breakpoints: (
+  'sm': 'screen and (min-width: 576px)',
+  'md': 'screen and (min-width: 768px)',
+  'lg': 'screen and (min-width: 992px)',
+  'xl': 'screen and (min-width: 1200px)',
+);
 
+// font
 $font-weight-regular: 400;
 $font-weight-bold: 700;
 $font-size-base: 14px;
