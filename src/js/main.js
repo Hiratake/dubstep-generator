@@ -22,7 +22,29 @@ const fileInputId = 'file'
 const fileDropAreaId = 'upload'
 const canvasId = 'preview'
 
+const options = {
+  effect: document.options.effect.value,
+  speed: document.options.speed.value,
+}
+
 let animation
+
+/**
+ * ページの初期化
+ */
+(() => {
+  // オプション
+  document.options.addEventListener('change', (e) => {
+    try {
+      const name = e.target.name
+      const value = e.target.value
+      options[name] = value
+    }
+    catch (e) {
+      console.error(e)
+    }
+  })
+})()
 
 /**
  * エフェクトを適用する関数
@@ -72,7 +94,7 @@ file({ targetId: fileInputId, dropAreaId: fileDropAreaId }, async (file) => {
     return element
   })())
 
-  const effect = effects.find((item) => item.name === 'dubstep')
+  const effect = effects.find((item) => item.name === options.effect)
   let currentFrame = 1
   clearInterval(animation)
   animation = setInterval(() => {
