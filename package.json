@@ -28,6 +28,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "fibers": "^5.0.0",
+    "gifencoder": "^2.0.1",
     "husky": "^7.0.1",
     "sass": "^1.37.5",
     "stylelint": "^13.13.1",
