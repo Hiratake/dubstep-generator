@@ -3,36 +3,37 @@
 'use strict'
 
 /**
- * @param {Object} options オプション
- * @param {Object} options.image 画像ファイルのオブジェクト
- * @return {Promise}
+ * ファイルから画像のHTMLImageElementを生成する関数
+ * @param {Object} file アップロードされたファイル
+ * @returns {Object} 画像のHTMLImageElement
  */
-module.exports = async (options = {}) => {
+export const createUploadImageElement = (file) => {
   return new Promise((resolve, reject) => {
-    const image = options.image ? options.image : ''
-
-    if (!image) {
-      reject(Error('Image file is not found.'))
-    }
-
-    const element = new Image()
+    const elem = new Image()
     const reader = new FileReader()
-
-    element.file = image
-
+    if (!file) {
+      reject(Error('File is not found.'))
+    }
+    elem.file = file
     reader.onload = (e) => {
-      const dataURL = e.target.result
-      element.src = dataURL
-      element.onload = () => {
-        resolve({
-          name: image.name,
-          dataURL,
-          element,
-          width: element.width,
-          height: element.height,
-        })
+      elem.src = e.target.result
+      elem.onload = () => {
+        resolve(elem)
       }
     }
-    reader.readAsDataURL(image)
+    reader.readAsDataURL(file)
   })
+}
+
+/**
+ * 対応している画像ファイルであるかどうかを判定する関数
+ * @param {Object} file アップロードされたファイル
+ * @returns {Boolean} 対応している画像ファイルであるか
+ */
+export const validateImageFormat = (file) => {
+  if (!file) {
+    return false
+  }
+  const arr = ['image/jpeg', 'image/png']
+  return file.type && arr.includes(file.type)
 }

@@ -4,6 +4,9 @@
 
 import { FRAMERATE } from './constants/animation'
 
+import { drawFrame } from './utils/animation'
+import { createUploadImageElement, validateImageFormat } from './utils/image'
+
 import EFFECT_DUBSTEP from './effects/dubstep'
 import EFFECT_HOPPING from './effects/hopping'
 import EFFECT_DEDDING from './effects/dedding'
@@ -14,120 +17,155 @@ const effects = [
   EFFECT_DEDDING,
 ]
 
-const file = require('./utils/file')
-const image = require('./utils/image')
-const canvas = require('./utils/canvas')
-
-const fileInputId = 'file'
-const fileDropAreaId = 'upload'
-const canvasId = 'preview'
-
 const options = {
   effect: document.options.effect.value,
   speed: document.options.speed.value,
 }
 
+const uploadDropAreaElement = document.getElementById('upload')
+const uploadInputElement = uploadDropAreaElement.getElementsByTagName('input')[0]
+const previewCanvasElement = document.getElementById('preview')
+const downloadButtonElement = document.getElementById('download')
+
 let animation
 
-/**
- * ページの初期化
- */
+/* ページの初期化 */
 (() => {
-  // オプション
-  document.options.addEventListener('change', (e) => {
-    try {
+  try {
+    const dragoverClass = 'is-dragover'
+
+    uploadDropAreaElement.addEventListener('dragover', (e) => {
+      e.preventDefault()
+      uploadDropAreaElement.classList.add(dragoverClass)
+    })
+    uploadDropAreaElement.addEventListener('dragleave', (e) => {
+      e.preventDefault()
+      uploadDropAreaElement.classList.remove(dragoverClass)
+    })
+    uploadDropAreaElement.addEventListener('drop', (e) => {
+      const files = e.dataTransfer.files
+      e.preventDefault()
+      uploadDropAreaElement.classList.remove(dragoverClass)
+      if (validateImageFormat(files[0])) {
+        uploadInputElement.files = files
+        resetUploadFilePreview()
+        addUploadFilePreview(uploadInputElement.files[0], 'c-upload__image')
+        showPreview(uploadInputElement.files[0])
+      }
+    })
+
+    uploadInputElement.addEventListener('change', (e) => {
+      if (validateImageFormat(e.target.files[0])) {
+        resetUploadFilePreview()
+        addUploadFilePreview(uploadInputElement.files[0], 'c-upload__image')
+        showPreview(uploadInputElement.files[0])
+      }
+      else {
+        uploadInputElement.value = ''
+      }
+    })
+
+    downloadButtonElement.addEventListener('click', async () => {
+      const file = uploadInputElement.files[0]
+      if (validateImageFormat(file)) {
+        await generateEmoji({
+          image: file,
+          effect: options.effect,
+          speed: options.speed,
+        })
+      }
+    })
+
+    document.options.addEventListener('change', (e) => {
       const name = e.target.name
       const value = e.target.value
       options[name] = value
-    }
-    catch (e) {
-      console.error(e)
-    }
-  })
+      showPreview(uploadInputElement.files[0])
+    })
+  }
+  catch (e) {
+    console.error(e)
+  }
 })()
 
 /**
- * 描画するアニメーションのフレーム数を計算する関数
- * @param {Number} base デフォルトのフレーム数
- * @param {Number} speed アニメーションの速さ
- * @returns {Number} フレーム数
+ * アップロードしたファイルのプレビュー表示を初期化する関数
+ * @returns {Boolean} 削除した画像の数
  */
-const getFrameCount = (base, speed) => {
-  const arr = [2, 1.8, 1.6, 1.4, 1.2, 1, 0.9, 0.8, 0.7, 0.6, 0.5]
-  return Math.floor(base * arr[speed])
+const resetUploadFilePreview = () => {
+  const items = [...uploadDropAreaElement.getElementsByTagName('img')]
+  items.forEach((item) => {
+    item.remove()
+  })
+  return items.length
 }
 
 /**
- * エフェクトを適用する関数
- * @param {Object} context Canvasのコンテキスト
- * @param {Object} image 描画する画像
- * @param {Object} effect 適用するエフェクト
- * @param {Number} currentFrame 現在のフレーム番号
- * @param {Number} speed アニメーションの速さ
- * @returns {Number} 次のフレーム番号
+ * アップロードしたファイルのプレビュー表示を追加する関数
+ * @param {Object} file アップロードされたファイル
+ * @param {String} className 付与するクラス名
  */
-const drawFrame = (
-  context,
-  image,
-  effect,
-  currentFrame,
-  speed = options.speed,
-) => {
-  const width = image.width >= image.height
-    ? context.canvas.width
-    : image.width * (context.canvas.height / image.height)
-  const height = image.width >= image.height
-    ? image.height * (context.canvas.width / image.width)
-    : context.canvas.height
-  const framecount = getFrameCount(effect.framecount, speed)
-  const rate = currentFrame / framecount
-
-  context.save()
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height)
-  effect.apply(context, rate)
-  context.drawImage(
-    image,
-    (context.canvas.width - width) / 2,
-    (context.canvas.height - height) / 2,
-    width,
-    height,
-  )
-  context.restore()
-  return currentFrame >= framecount ? 1 : currentFrame + 1
+const addUploadFilePreview = async (file, className = '') => {
+  const image = await createUploadImageElement(file)
+  if (className) {
+    image.classList.add(className)
+  }
+  uploadDropAreaElement.prepend(image)
 }
 
-file({ targetId: fileInputId, dropAreaId: fileDropAreaId }, async (file) => {
-  const uploadImage = await image({ image: file })
-  const preview = await canvas({ targetId: canvasId })
-
-  const dropArea = document.getElementById(fileDropAreaId)
-  const dropAreaImageList = [
-    ...dropArea.getElementsByClassName('c-upload__image'),
-  ]
-  dropAreaImageList.forEach((item) => {
-    item.remove()
-  })
-  dropArea.prepend((() => {
-    const element = uploadImage.element.cloneNode()
-    element.classList.add('c-upload__image')
-    return element
-  })())
-
+/**
+ * アニメーションのプレビューを表示する関数
+ * @param {Object} file アップロードされたファイル
+ */
+const showPreview = async (file) => {
+  const image = await createUploadImageElement(file)
+  const context = previewCanvasElement.getContext('2d')
   const effect = effects.find((item) => item.name === options.effect)
   let currentFrame = 1
+
   clearInterval(animation)
   animation = setInterval(() => {
     try {
       currentFrame = drawFrame(
-        preview.context,
-        uploadImage.element,
+        context,
+        image,
         effect,
         currentFrame,
+        options.speed,
       )
     }
     catch (e) {
-      console.error(e)
       clearInterval(animation)
     }
   }, 1000 / FRAMERATE)
-})
+}
+
+/**
+ * GIFファイルを生成する関数
+ * @param {Object} options オプション
+ * @param {Object} options.image 描画する画像
+ * @param {String} options.effect 適用するエフェクト
+ * @param {Number} options.speed アニメーションの速さ
+ * @returns 生成したアニメーションGIF画像
+ */
+const generateEmoji = async (options = {}) => {
+  const canvas = document.createElement('canvas')
+  const effect = effects.find((item) => item.name === options.effect)
+  const image = await createUploadImageElement(options.image)
+  let currentFrame = 1
+
+  canvas.width = 260
+  canvas.height = 260
+
+  do {
+    currentFrame = drawFrame(
+      canvas.getContext('2d'),
+      image,
+      effect,
+      currentFrame,
+      options.speed,
+    )
+  } while (currentFrame !== 1)
+
+  return true
+}
