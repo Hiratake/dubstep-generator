@@ -37,8 +37,8 @@
   "scripts": {
     "build": "yarn lint && node scripts/build.js",
     "dev": "node scripts/dev.js",
-    "lint:js": "eslint --ext \".js\" --ignore-path .gitignore .",
-    "lint:style": "stylelint \"**/*.scss\" --ignore-path .gitignore",
+    "lint:js": "eslint --ext \".js\" .",
+    "lint:style": "stylelint \"**/*.scss\"",
     "lint": "yarn lint:js && yarn lint:style",
     "prepare": "husky install"
   }
