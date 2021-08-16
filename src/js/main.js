@@ -2,6 +2,9 @@
 
 'use strict'
 
+import GIFEncoder from './lib/GIFEncoder'
+import encode64 from './lib/b64'
+
 import { FRAMERATE } from './constants/animation'
 
 import { drawFrame } from './utils/animation'
@@ -33,6 +36,7 @@ let animation
 (() => {
   try {
     const dragoverClass = 'is-dragover'
+    const uploadPreviewClass = 'c-upload__image'
 
     uploadDropAreaElement.addEventListener('dragover', (e) => {
       e.preventDefault()
@@ -49,33 +53,34 @@ let animation
       if (validateImageFormat(files[0])) {
         uploadInputElement.files = files
         resetUploadFilePreview()
-        addUploadFilePreview(uploadInputElement.files[0], 'c-upload__image')
+        addUploadFilePreview(uploadInputElement.files[0], uploadPreviewClass)
         showPreview(uploadInputElement.files[0])
       }
     })
-
     uploadInputElement.addEventListener('change', (e) => {
       if (validateImageFormat(e.target.files[0])) {
         resetUploadFilePreview()
-        addUploadFilePreview(uploadInputElement.files[0], 'c-upload__image')
+        addUploadFilePreview(uploadInputElement.files[0], uploadPreviewClass)
         showPreview(uploadInputElement.files[0])
       }
       else {
         uploadInputElement.value = ''
       }
     })
-
     downloadButtonElement.addEventListener('click', async () => {
       const file = uploadInputElement.files[0]
       if (validateImageFormat(file)) {
-        await generateEmoji({
+        const res = await generateEmoji({
           image: file,
           effect: options.effect,
           speed: options.speed,
         })
+        const link = document.createElement('a')
+        link.download = 'emoji.gif'
+        link.href = res
+        link.click()
       }
     })
-
     document.options.addEventListener('change', (e) => {
       const name = e.target.name
       const value = e.target.value
@@ -149,11 +154,15 @@ const showPreview = async (file) => {
  * @returns 生成したアニメーションGIF画像
  */
 const generateEmoji = async (options = {}) => {
+  const encoder = new GIFEncoder()
   const canvas = document.createElement('canvas')
   const effect = effects.find((item) => item.name === options.effect)
   const image = await createUploadImageElement(options.image)
   let currentFrame = 1
 
+  encoder.setRepeat(0)
+  encoder.setFrameRate(FRAMERATE)
+  encoder.start()
   canvas.width = 260
   canvas.height = 260
 
@@ -165,7 +174,8 @@ const generateEmoji = async (options = {}) => {
       currentFrame,
       options.speed,
     )
+    encoder.addFrame(canvas.getContext('2d'))
   } while (currentFrame !== 1)
 
-  return true
+  return `data:image/gif;base64,${encode64(encoder.stream().getData())}`
 }
