@@ -151,7 +151,7 @@ const showPreview = async (file) => {
  * @param {Object} options.image 描画する画像
  * @param {String} options.effect 適用するエフェクト
  * @param {Number} options.speed アニメーションの速さ
- * @returns 生成したアニメーションGIF画像
+ * @returns {String} 生成したアニメーションGIF画像
  */
 const generateEmoji = async (options = {}) => {
   const encoder = new GIFEncoder()
@@ -160,11 +160,13 @@ const generateEmoji = async (options = {}) => {
   const image = await createUploadImageElement(options.image)
   let currentFrame = 1
 
+  canvas.width = 64
+  canvas.height = 64
+
   encoder.setRepeat(0)
   encoder.setFrameRate(FRAMERATE)
+  encoder.setTransparent(0)
   encoder.start()
-  canvas.width = 260
-  canvas.height = 260
 
   do {
     currentFrame = drawFrame(
@@ -177,5 +179,6 @@ const generateEmoji = async (options = {}) => {
     encoder.addFrame(canvas.getContext('2d'))
   } while (currentFrame !== 1)
 
+  encoder.finish()
   return `data:image/gif;base64,${encode64(encoder.stream().getData())}`
 }
