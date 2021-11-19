@@ -28,7 +28,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.1",
     "fibers": "^5.0.0",
-    "husky": "^7.0.2",
+    "husky": "^7.0.4",
     "sass": "^1.43.2",
     "stylelint": "^13.13.1",
     "stylelint-config-recess-order": "^2.5.0",
