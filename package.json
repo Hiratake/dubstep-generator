@@ -18,7 +18,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@commitlint/cli": "^13.2.1",
+    "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^13.2.0",
     "browser-sync": "^2.27.5",
     "esbuild": "^0.13.13",
