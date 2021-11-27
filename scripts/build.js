@@ -32,7 +32,6 @@ require('sass')
     outFile: 'main.css',
     outputStyle: 'compressed',
     sourceMap: false,
-    fiber: require('fibers'),
   }, (err, result) => {
     if (err) {
       console.error(err)

@@ -3,7 +3,6 @@
 const fs = require('fs')
 const esbuild = require('esbuild')
 const sass = require('sass')
-const fibers = require('fibers')
 const { ESLint } = require('eslint')
 const stylelint = require('stylelint')
 const bs = require('browser-sync').create()
@@ -61,7 +60,6 @@ const compileStyle = () => {
       outFile: 'main.css',
       outputStyle: 'expanded',
       sourceMap: true,
-      fiber: fibers,
     }, (err, result) => {
       if (err) {
         console.error(err)
