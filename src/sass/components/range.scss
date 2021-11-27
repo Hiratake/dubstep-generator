@@ -1,6 +1,6 @@
 // components/range.scss
 
-@use '../includes' as *;
+@use "../includes" as *;
 
 .c-range {
   position: relative;
@@ -8,20 +8,24 @@
   padding-top: $size-base * 2;
 }
 
-.c-range__label {
+%c-range__label {
   position: absolute;
   top: 0;
   font-size: $font-size-s3;
   font-weight: $font-weight-bold;
+}
+
+.c-range__label {
+  @extend %c-range__label;
 
   &--min {
-    @extend .c-range__label;
+    @extend %c-range__label;
 
     left: 0;
   }
 
   &--max {
-    @extend .c-range__label;
+    @extend %c-range__label;
 
     right: 0;
   }
@@ -44,7 +48,7 @@
     background-color: $color-white;
     border: solid 1px $color-gray-2;
     border-radius: 50%;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 0 4px rgb(0 0 0 / 16%);
   }
 
   &::-moz-focus-outer {
@@ -52,13 +56,13 @@
   }
 
   &::-webkit-slider-thumb {
-    -webkit-appearance: none;
+    appearance: none;
     width: $size-base * 2;
     height: $size-base * 2;
     background-color: $color-white;
     border: solid 1px $color-gray-2;
     border-radius: 50%;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 0 4px rgb(0 0 0 / 16%);
   }
 
   &:focus {

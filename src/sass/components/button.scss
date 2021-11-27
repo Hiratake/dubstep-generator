@@ -1,6 +1,6 @@
 // components/button.scss
 
-@use '../includes' as *;
+@use "../includes" as *;
 
 .c-button {
   position: relative;
@@ -23,7 +23,7 @@
     left: 0;
     color: inherit;
     pointer-events: none;
-    content: '';
+    content: "";
     background-color: currentColor;
     border-radius: inherit;
     opacity: 0;

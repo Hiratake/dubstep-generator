@@ -1,6 +1,6 @@
 // components/radio.scss
 
-@use '../includes' as *;
+@use "../includes" as *;
 
 .c-radio {
   display: grid;
@@ -20,7 +20,7 @@
   &::before {
     width: $size-base * 2;
     height: $size-base * 2;
-    content: '';
+    content: "";
     background-color: $color-white;
     border: solid 1px $color-gray-1;
     border-radius: 50%;
@@ -46,7 +46,7 @@
     width: $size-base * 1;
     height: $size-base * 1;
     margin: auto;
-    content: '';
+    content: "";
     background-color: transparent;
     border-radius: 50%;
     transition: background-color 0.1s;

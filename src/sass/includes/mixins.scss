@@ -1,6 +1,6 @@
 // includes/mixins.scss
 
-@use 'variables' as *;
+@use "variables" as *;
 
 // breakpoint
 @mixin breakpoint( $breakpoint-type: md ) {

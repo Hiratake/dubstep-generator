@@ -1,9 +1,9 @@
 // layouts/body.scss
 
-@use '../includes' as *;
+@use "../includes" as *;
 
 .l-body {
-  font-family: 'Quicksand', sans-serif;
+  font-family: Quicksand, sans-serif;
   color: $color-black;
   background-color: $color-gray-4;
 }

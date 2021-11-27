@@ -1,6 +1,6 @@
 // components/option-container.scss
 
-@use '../includes' as *;
+@use "../includes" as *;
 
 .c-option-container {
   display: grid;
@@ -11,7 +11,7 @@
   padding: $size-base * 3 $size-base * 6 $size-base * 3 $size-base * 3;
   background-color: $color-white;
   border-radius: $size-border-radius;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 16%);
 }
 
 .c-option-container__header {

@@ -3,7 +3,7 @@
 html {
   box-sizing: border-box;
   overflow-y: scroll;
-  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 *,
@@ -71,7 +71,7 @@ abbr[title] {
 
 a {
   background-color: transparent;
-  -webkit-text-decoration-skip: objects;
+  text-decoration-skip: objects;
 }
 
 a:active,
@@ -161,7 +161,7 @@ button,
 html [type="button"],
 [type="reset"],
 [type="submit"] {
-  -webkit-appearance: none;
+  appearance: none;
 }
 
 button,
@@ -194,8 +194,7 @@ button:-moz-focusring,
 }
 
 select {
-  -moz-appearance: none;
-  -webkit-appearance: none;
+  appearance: none;
 }
 
 select::-ms-expand {
@@ -215,18 +214,18 @@ legend {
 }
 
 ::-webkit-file-upload-button {
-  -webkit-appearance: button;
+  appearance: button;
   font: inherit;
 }
 
 [type="search"] {
-  -webkit-appearance: textfield;
+  appearance: textfield;
   outline-offset: -2px;
 }
 
 [type="search"]::-webkit-search-cancel-button,
 [type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none;
+  appearance: none;
 }
 
 img {
@@ -270,12 +269,6 @@ video {
 
 [aria-disabled] {
   cursor: default;
-}
-
-::-moz-selection {
-  color: #000;
-  text-shadow: none;
-  background-color: #b3d4fc;
 }
 
 ::selection {

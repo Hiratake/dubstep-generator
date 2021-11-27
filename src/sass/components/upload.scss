@@ -1,6 +1,6 @@
 // components/upload.scss
 
-@use '../includes' as *;
+@use "../includes" as *;
 
 .c-upload {
   width: 100%;
@@ -33,7 +33,7 @@
     right: $size-base * 0.5;
     bottom: $size-base * 0.5;
     left: $size-base * 0.5;
-    content: '';
+    content: "";
     background-color: $color-primary;
     border-radius: inherit;
     opacity: 0;
