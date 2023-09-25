@@ -1,32 +1,46 @@
+# CI
+
 name: CI
+
 on:
   push:
     branches:
       - main
-      - master
   pull_request:
     branches:
       - main
-      - master
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name != 'push' }}
+
 jobs:
+  # Lint
   lint:
     name: Lint
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [14]
+        node: [18]
+    timeout-minutes: 10
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
+
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - name: Cache modules
         uses: actions/cache@v3
         id: yarn-cache
@@ -35,7 +49,9 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
       - name: Install dependencies
         run: yarn
+
       - name: Run linter
         run: yarn lint
