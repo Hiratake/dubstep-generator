@@ -21,7 +21,7 @@
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
     "browser-sync": "^3.0.2",
-    "esbuild": "^0.19.9",
+    "esbuild": "^0.19.11",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.29.1",
