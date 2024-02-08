@@ -42,6 +42,6 @@
     "lint:js": "eslint --ext \".js\" .",
     "lint:style": "stylelint \"**/*.scss\"",
     "lint": "yarn lint:js && yarn lint:style",
-    "prepare": "husky install"
+    "prepare": "husky"
   }
 }
