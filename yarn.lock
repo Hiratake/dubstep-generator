@@ -3672,10 +3672,10 @@ possible-typed-array-names@^1.0.0:
   resolved "https://registry.yarnpkg.com/possible-typed-array-names/-/possible-typed-array-names-1.0.0.tgz#89bb63c6fada2c3e90adc4a647beeeb39cc7bf8f"
   integrity sha512-d7Uw+eZoloe0EHDIYoe+bQ5WXnGMOpmiZFTuMWCwpjzzkL2nTjcKiAk4hh8TjnGye2TwWOk3UXucZ+3rbmBa8Q==
 
-postcss-html@^1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/postcss-html/-/postcss-html-1.8.0.tgz#2ea1e9d6c53f04ea994135219d3bd8a9e380e13b"
-  integrity sha512-5mMeb1TgLWoRKxZ0Xh9RZDfwUUIqRrcxO2uXO+Ezl1N5lqpCiSU5Gk6+1kZediBfBHFtPCdopr2UZ2SgUsKcgQ==
+postcss-html@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/postcss-html/-/postcss-html-1.8.1.tgz#111eba62cfc293e38a3ffe64d4caf9c830ea2c42"
+  integrity sha512-OLF6P7qctfAWayOhLpcVnTGqVeJzu2W3WpIYelfz2+JV5oGxfkcEvweN9U4XpeqE0P98dcD9ssusGwlF0TK0uQ==
   dependencies:
     htmlparser2 "^8.0.0"
     js-tokens "^9.0.0"
